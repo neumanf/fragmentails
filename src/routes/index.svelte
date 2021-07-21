@@ -1,5 +1,15 @@
 <script>
 	import Card from '../components/Card.svelte';
+	import fragments from '../utils/fragments.js';
+
+	let categories = [
+		{ name: 'Cards', checked: false },
+		{ name: 'Forms', checked: false },
+		{ name: 'Buttons', checked: true },
+		{ name: 'Modals', checked: false },
+		{ name: 'Sidebar', checked: false },
+		{ name: 'Navbar', checked: false }
+	];
 </script>
 
 <div class="h-screen">
@@ -53,9 +63,56 @@
 				</div>
 			</div>
 
-			<div id="fragments" class="flex flex-col items-center h-screen py-10">
+			<!-- Fragments -->
+			<div id="fragments" class="flex flex-col items-center justify-between h-screen py-10">
 				<h1 class="text-salmon-dark font-bold text-2xl">Fragments</h1>
+
+				<div class="flex h-full w-full justify-between items-center">
+					<div class="flex flex-col items-center justify-center">
+						{#each categories as { name, checked }}
+							<button
+								class="{checked
+									? 'text-gray-50 bg-salmon-dark'
+									: ''} py-2 px-6 border-2 border-salmon-dark text-salmon-dark rounded-lg w-36 mb-2 hover:text-white hover:bg-salmon-dark"
+								on:click={() =>
+									(categories = categories.map((category) => ({
+										...category,
+										checked: category.name === name ? !category.checked : category.checked
+									})))}
+							>
+								{name}
+							</button>
+						{/each}
+					</div>
+
+					<div
+						class="flex flex-col mx-10 items-center justify-center mt-12 w-full h-full overflow-y-auto"
+					>
+						{#each fragments as { id, title, category, code } (id)}
+							{#each categories as { name, checked }}
+								{#if name === category && checked}
+									<div
+										class="flex flex-col w-4/6 mr-32 px-10 py-8 rounded-3xl bg-salmon-light mb-4"
+									>
+										<div class="flex items-center mb-4">
+											<p class="font-bold text-purpled-dark mr-4">{title}</p>
+											<p class="bg-purpled text-white text-sm px-2 py-1 rounded-3xl">{category}</p>
+										</div>
+
+										{@html code}
+									</div>
+								{/if}
+							{/each}
+						{/each}
+					</div>
+				</div>
 			</div>
+
+			<!-- Footer -->
+			<footer class="bg-white mb-4">
+				<hr class="h-px my-6 bg-salmon-light border-none" />
+				<p class="text-center text-salmon">© Fragmentails 2021</p>
+			</footer>
 		</div>
 	</div>
 </div>
