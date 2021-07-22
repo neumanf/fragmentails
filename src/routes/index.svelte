@@ -1,4 +1,7 @@
 <script>
+	import { slide } from 'svelte/transition';
+	import { cubicOut } from 'svelte/easing';
+
 	import Card from '../components/Card.svelte';
 	import fragments from '../utils/fragments.js';
 
@@ -93,6 +96,7 @@
 								{#if name === category && checked}
 									<div
 										class="flex flex-col w-4/6 mr-32 px-10 py-8 rounded-3xl bg-salmon-light mb-4"
+										transition:slide={{ delay: 250, duration: 300, easing: cubicOut }}
 									>
 										<div class="flex items-center mb-4">
 											<p class="font-bold text-purpled-dark mr-4">{title}</p>
