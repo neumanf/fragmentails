@@ -1,2 +1,7 @@
-<script>import "../app.postcss";</script>
-<slot></slot>
+<script>
+	import '../app.postcss';
+	import { SvelteToast } from '@zerodevx/svelte-toast';
+</script>
+
+<SvelteToast />
+<slot />

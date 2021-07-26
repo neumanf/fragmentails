@@ -1,9 +1,13 @@
 <script>
 	import { slide } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
+	import SvelteTooltip from 'svelte-tooltip';
+	import { toast } from '@zerodevx/svelte-toast';
+	import Prism from 'prismjs';
 
 	import Card from '../components/Card.svelte';
 	import fragments from '../utils/fragments.js';
+	import CopyToClipboard from '../utils/copyToClipboard.svelte';
 
 	let categories = [
 		{ name: 'Cards', checked: false },
@@ -13,6 +17,8 @@
 		{ name: 'Sidebar', checked: false },
 		{ name: 'Navbar', checked: false }
 	];
+
+	let isCode = false;
 </script>
 
 <div class="h-screen">
@@ -95,15 +101,63 @@
 							{#each categories as { name, checked }}
 								{#if name === category && checked}
 									<div
-										class="flex flex-col w-4/6 mr-32 px-10 py-8 rounded-3xl bg-salmon-light mb-4"
+										class="flex justify-between w-4/6 mr-32 px-10 py-8 rounded-3xl bg-salmon-light mb-4"
 										transition:slide={{ delay: 250, duration: 300, easing: cubicOut }}
 									>
-										<div class="flex items-center mb-4">
-											<p class="font-bold text-purpled-dark mr-4">{title}</p>
-											<p class="bg-purpled text-white text-sm px-2 py-1 rounded-3xl">{category}</p>
-										</div>
+										<div class="flex flex-col">
+											<div class="flex items-center mb-4">
+												<p class="font-bold text-purpled-dark mr-4">{title}</p>
+												<p class="bg-purpled text-white text-sm px-2 py-1 rounded-3xl">
+													{category}
+												</p>
+											</div>
 
-										{@html code}
+											{#if isCode}
+												<div
+													class="code text-white bg-purpled-dark px-4 py-2 rounded-lg"
+													transition:slide={{ delay: 250, duration: 300, easing: cubicOut }}
+												>
+													{@html Prism.highlight(code, Prism.languages.html, 'html')}
+												</div>
+											{:else}
+												<div transition:slide={{ delay: 250, duration: 300, easing: cubicOut }}>
+													{@html code}
+												</div>
+											{/if}
+										</div>
+										<div class="flex flex-col text-white ml-4 justify-center">
+											<CopyToClipboard
+												on:copy={() =>
+													toast.push('Successfully copied to clipboard', {
+														theme: {
+															'--toastBackground': '#34D399',
+															'--toastColor': 'white',
+															'--toastProgressBackground': '#10B981',
+															'--toastWidth': '20rem'
+														}
+													})}
+												text={code}
+												let:copy
+											>
+												<SvelteTooltip tip="copy to clipboard" color="#586BA4" right>
+													<button
+														class="bg-salmon w-10 h-10 mb-4 text-white rounded-full hover:bg-salmon-dark"
+														on:click={copy}
+													>
+														<i class="fa fa-copy" aria-hidden="true" />
+													</button>
+												</SvelteTooltip>
+											</CopyToClipboard>
+
+											<SvelteTooltip tip="show code" color="#586BA4" right>
+												<button
+													class="bg-salmon w-10 h-10 text-white rounded-full hover:bg-salmon-dark"
+													on:click={() => (isCode = !isCode)}
+												>
+													<i class="fa fa-code" aria-hidden="true" />
+												</button>
+											</SvelteTooltip>
+										</div>
 									</div>
 								{/if}
 							{/each}
