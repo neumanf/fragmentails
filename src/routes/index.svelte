@@ -23,7 +23,7 @@
 
 <div class="h-screen">
 	<div class="bg-salmon-light h-5/6">
-		<div class="container py-8 h-full">
+		<div class="container py-8 px-4 h-full">
 			<!-- Header -->
 			<div class="flex justify-end">
 				<a class="text-purpled-dark hover:text-opacity-75" href="https://tailwindcss.com/"
@@ -36,10 +36,10 @@
 			<!-- Hero -->
 			<div class="flex justify-between items-center h-full">
 				<div class="flex flex-col">
-					<h1 class="font-bold text-6xl mb-4 text-purpled-dark">
+					<h1 class="font-bold text-4xl sm:text-6xl mb-4 text-purpled-dark">
 						Fragmen<span class="text-salmon-dark">tail</span>s
 					</h1>
-					<p class="text-purpled mb-8 text-2xl">Responsive Tailwind CSS components</p>
+					<p class="text-purpled mb-8 text-xl sm:text-2xl">Responsive Tailwind CSS components</p>
 					<a href="#fragments">
 						<button
 							class="py-2 px-6 border-2 border-salmon-dark text-salmon-dark rounded-lg w-36 hover:text-white hover:bg-salmon-dark"
@@ -48,22 +48,24 @@
 						</button>
 					</a>
 				</div>
-				<img src="/assets/images/hero_image.svg" alt="Hero" />
+				<img class="hidden sm:block md:w-3/5" src="/assets/images/hero_image.svg" alt="Hero" />
 			</div>
 
 			<!-- Cards -->
 			<div id="usage" class="relative bottom-10">
-				<div class="flex justify-around">
+				<div class="flex flex-col sm:flex-row sm:justify-between items-center">
 					<Card
 						icon="fa fa-code"
 						title="Minimal"
 						content="Fragments are designed with simplicity in mind"
 					/>
+					<div class="h-10" />
 					<Card
 						icon="fa fa-mobile"
 						title="Responsive"
 						content="Keep your website beautiful anywhere"
 					/>
+					<div class="h-10" />
 					<Card
 						icon="fa fa-moon-o"
 						title="Dark mode"
@@ -74,9 +76,9 @@
 
 			<!-- Fragments -->
 			<div id="fragments" class="flex flex-col items-center justify-between h-screen py-10">
-				<h1 class="text-salmon-dark font-bold text-2xl">Fragments</h1>
+				<h1 class="text-salmon-dark font-bold text-2xl mb-4">Fragments</h1>
 
-				<div class="flex h-full w-full justify-between items-center">
+				<div class="flex flex-col sm:flex-row h-full w-full justify-between items-center">
 					<div class="flex flex-col items-center justify-center">
 						{#each categories as { name, checked }}
 							<button
@@ -95,13 +97,13 @@
 					</div>
 
 					<div
-						class="flex flex-col mx-10 items-center justify-center mt-12 w-full h-full overflow-y-auto"
+						class="flex flex-col sm:mx-10 items-center justify-center mt-12 sm:w-full h-full overflow-x-hidden overflow-y-auto"
 					>
 						{#each fragments as { id, title, category, code } (id)}
 							{#each categories as { name, checked }}
 								{#if name === category && checked}
 									<div
-										class="flex justify-between w-4/6 mr-32 px-10 py-8 rounded-3xl bg-salmon-light mb-4"
+										class="flex justify-between w-full lg:w-4/6 lg:mr-32 px-10 py-8 rounded-3xl bg-salmon-light mb-4"
 										transition:slide={{ delay: 250, duration: 300, easing: cubicOut }}
 									>
 										<div class="flex flex-col">
